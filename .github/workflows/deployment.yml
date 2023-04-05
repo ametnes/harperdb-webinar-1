@@ -1,7 +1,7 @@
 
  
 
-name: Deployment
+name: Testing & Deployment
 
 # Only deploy on main branch pushes
 on:
@@ -26,6 +26,9 @@ jobs:
       # Install Custom Functions dependencies (if needed)
       - name: Install dependencies
         run: cd custom_functions && yarn && cd ..
+      # Run the test script to run the test suites
+      - name: Unit Test Custom Functions
+        run: cd testing && yarn && yarn test && cd ..
       # Deploy the Custom Functions to our pre-configured Instance
       - name: Deploy Custom Functions
         uses: makvoid/deploy-harperdb-cf-action@main

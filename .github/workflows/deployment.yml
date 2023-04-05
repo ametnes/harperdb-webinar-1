@@ -1,0 +1,38 @@
+
+ 
+
+name: Deployment
+
+# Only deploy on main branch pushes
+on:
+  push:
+    branches: [ "main" ]
+
+  # Enable manual runs if desired
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the latest copy of the repository
+      - name: Checkout
+        uses: actions/checkout@v2.7.0
+      # Install NodeJS (for dependencies + running the test)
+      - name: Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      # Install Custom Functions dependencies (if needed)
+      - name: Install dependencies
+        run: cd custom_functions && yarn && cd ..
+      # Deploy the Custom Functions to our pre-configured Instance
+      - name: Deploy Custom Functions
+        uses: makvoid/deploy-harperdb-cf-action@main
+        with:
+          admin_username: ${{ secrets.HDB_ADMIN_USERNAME }}
+          admin_password: ${{ secrets.HDB_ADMIN_PASSWORD }}
+          hdb_endpoint: ${{ secrets.HDB_ENDPOINT }}
+          project_name: ${{ secrets.HDB_PROJECT }}
+          cf_directory: 'custom_functions'
+          reject_unauthorized_certs: 'false'

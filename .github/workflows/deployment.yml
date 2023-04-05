@@ -25,7 +25,7 @@ jobs:
         run: cd unit-testing-custom-functions/custom_functions && yarn && cd ..
       # Run the test script to run the test suites
       - name: Unit Test Custom Functions
-        run: cd testing && yarn && yarn test && cd ..
+        run: cd unit-testing-custom-functions/testing && yarn && yarn test && cd ..
       # Deploy the Custom Functions to our pre-configured Instance
       - name: Deploy Custom Functions
         uses: makvoid/deploy-harperdb-cf-action@main

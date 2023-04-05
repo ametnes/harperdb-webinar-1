@@ -1,0 +1,6 @@
+.terraform
+*.lock.hcl
+*tfstate*
+secrets.auto.tfvars
+node_modules
+.nyc_output

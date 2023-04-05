@@ -1,0 +1,30 @@
+name: Testing
+
+# Perform testing on pushes and pull requests to the main branch
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Enable manual runs if desired
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the latest copy of the repository
+      - name: Checkout
+        uses: actions/checkout@v2.7.0
+      # Install NodeJS (for dependencies + running the test)
+      - name: Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      # Install Custom Functions dependencies (if needed)
+      - name: Install dependencies
+        run: cd custom_functions && yarn && cd ..
+      # Run the test script to run the test suites
+      - name: Unit Test Custom Functions
+        run: cd testing && yarn && yarn test && cd ..
